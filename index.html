@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <a-scene>
+  <a-scene cursor="rayOrigin: mouse">
     <a-assets>
       <img id="city" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
       <img id="city-thumb" crossorigin="anonymous"
@@ -39,7 +39,7 @@
     </a-sky>
 
 
-    <a-link href="https://google.de" title="My Homepage" image="#cubes" position="-2 0 -5"></a-link>
+    <a-link href="/" class="link" title="My Homepage" peekMode="true" image="#cubes" position="-2 0 -5"></a-link>
     <!-- Image links. -->
     <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
       <a-entity mixin="link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
