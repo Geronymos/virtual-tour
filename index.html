@@ -40,15 +40,17 @@
       anchor="property: src; delay: 300">
     </a-sky>
    
-    <a-entity portal="to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
-    <a-entity portal="to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
-    <a-link href="/" class="link" title="My Homepage" peekMode="true" image="#cubes" position="-2 0 -5"></a-link>
+    <a-entity class="link" portal="domain:#image-360;to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
+    <a-entity class="link" portal="domain:#image-360;to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
+    <a-entity class="link" portal="domain:#image-360;to:#sechelt;from:#cubes;title:My portal" position="0 0 -5"></a-entity>
+    
+    <!-- <a-link href="/" class="link" title="My Homepage" peekMode="true" image="#cubes" position="-2 0 -5"></a-link> -->
     <!-- Image links. -->
-    <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+    <!-- <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
       <a-entity mixin="link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
       <a-entity mixin="link" data-src="#city" data-thumb="#city-thumb"></a-entity>
       <a-entity mixin="link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
-    </a-entity>
+    </a-entity> -->
 
     <!-- Camera + cursor. -->
     <a-entity camera look-controls>
