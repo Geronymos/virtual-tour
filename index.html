@@ -39,11 +39,11 @@
       animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
       anchor="property: src; delay: 300">
     </a-sky>
-   
-    <a-entity class="link" portal="domain:#image-360;to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
-    <a-entity class="link" portal="domain:#image-360;to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
-    <a-entity class="link" portal="domain:#image-360;to:#sechelt;from:#cubes;title:My portal" position="0 0 -5"></a-entity>
-    
+
+    <a-entity portal="domain:#image-360;to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
+    <a-entity portal="domain:#image-360;to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
+    <a-entity portal="domain:#image-360;to:#sechelt;from:#cubes;title:My portal" position="0 0 -5"></a-entity>
+
     <!-- <a-link href="/" class="link" title="My Homepage" peekMode="true" image="#cubes" position="-2 0 -5"></a-link> -->
     <!-- Image links. -->
     <!-- <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
@@ -61,6 +61,14 @@
         event-set__mouseleave="_event: mouseleave; color: black" raycaster="objects: .link"></a-cursor>
     </a-entity>
   </a-scene>
+
+  <script>
+    const sceneEl = document.querySelector('a-scene');
+    const images = sceneEl.querySelectorAll('a-assets img[id]');
+    if (![...images].some(elem => elem.id === location.hash)) {
+      location.hash = images[0].id
+    }
+  </script>
 </body>
 
 </html>
