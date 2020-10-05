@@ -37,12 +37,13 @@
     <a-sky id="image-360" radius="10" src="#city"
       animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
       animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
-      anchor="property: src; delay: 300">
+      anchor="property: src; delay: 300" 
+      proxy-event="event: fade; to: #portal; as: roomChange">
     </a-sky>
 
-    <a-entity portal="domain:#image-360;to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
-    <a-entity portal="domain:#image-360;to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
-    <a-entity portal="domain:#image-360;to:#sechelt;from:#cubes;title:My portal" position="0 0 -5"></a-entity>
+    <a-entity id="portal" portal="domain:#image-360;startEvent: roomChange; to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
+    <a-entity id="portal" portal="domain:#image-360;startEvent: roomChange; to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
+    <a-entity id="portal" portal="domain:#image-360;startEvent: roomChange; to:#sechelt;from:#cubes;title:My portal" position="0 0 -5"></a-entity>
 
     <!-- <a-link href="/" class="link" title="My Homepage" peekMode="true" image="#cubes" position="-2 0 -5"></a-link> -->
     <!-- Image links. -->

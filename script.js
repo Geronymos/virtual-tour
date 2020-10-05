@@ -2,6 +2,7 @@
 AFRAME.registerComponent('portal', {
     schema: {
         domain: { type: 'selector', default: '#image-360' },
+        startEvent: { type: 'string' },
         from: { type: 'asset', default: '#' },
         to: { type: 'asset', default: '#' },
         title: { type: 'string', default: '#' }
@@ -14,19 +15,16 @@ AFRAME.registerComponent('portal', {
     },
 
     update: function () {
-        this.link.setAttribute('link', {
-            title: this.data.title,
-            href: `#${this.data.to}`,
-            image: this.data.to
-        });
+        this.el.addEventListener(this.data.startEvent, () => this.changePortal());
+        this.changePortal();
     },
-    tick: function () {
-        const domain_image = this.data.domain.components.material.data.src;
-        const is_from_in_scene = this.data.from == domain_image;
-        const is_to_in_scene = this.data.to == domain_image;
+    changePortal: function () {
+        console.log("hashchange", this);
+        // const domain_image = this.data.domain.components.material.data.src;
+        const domain_image = this.data.domain.components.anchor.image.split("#")[1];
+        const is_from_in_scene = this.data.from.id == domain_image;
+        const is_to_in_scene = this.data.to.id == domain_image;
         const is_in_scene = is_from_in_scene || is_to_in_scene;
-
-        // console.log(domain_image, this.data.from)
 
         this.el.object3D.visible = is_in_scene;
 
@@ -35,7 +33,8 @@ AFRAME.registerComponent('portal', {
             href: `#${is_to_in_scene ? this.data.from.id : this.data.to.id}`,
             image: is_to_in_scene ? this.data.from : this.data.to
         });
-     },
+    },
+    tick: function () { },
     remove: function () { },
     pause: function () { },
     play: function () { }
