@@ -7,8 +7,8 @@
   <meta name="description" content="360&deg; Image Gallery - A-Frame">
   <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
-  <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
-  <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+  <!-- <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script> -->
+  <!-- <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script> -->
   <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
   <script src="components/anchor.js"></script>
   <script src="components/portal.js"></script>
@@ -42,14 +42,6 @@
     <a-entity id="portal" portal="domain:#image-360;startEvent: roomChange; to:#cubes;from:#city;title:My portal" position="-5 0 -5"></a-entity>
     <a-entity id="portal" portal="domain:#image-360;startEvent: roomChange; to:#city;from:#sechelt;title:My portal" position="5 0 -5"></a-entity>
     <a-entity id="portal" portal="domain:#image-360;startEvent: roomChange; to:#sechelt;from:#cubes;title:My portal" position="0 0 -5"></a-entity>
-
-    <!-- <a-link href="/" class="link" title="My Homepage" peekMode="true" image="#cubes" position="-2 0 -5"></a-link> -->
-    <!-- Image links. -->
-    <!-- <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
-      <a-entity mixin="link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
-      <a-entity mixin="link" data-src="#city" data-thumb="#city-thumb"></a-entity>
-      <a-entity mixin="link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
-    </a-entity> -->
 
     <!-- Camera + cursor. -->
     <a-entity camera look-controls>
