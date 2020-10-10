@@ -27,6 +27,7 @@ AFRAME.registerComponent('portal', {
         const is_in_scene = is_from_in_scene || is_to_in_scene;
 
         this.el.object3D.visible = is_in_scene;
+        this.link.className = is_in_scene ? "link": "";
 
         this.link.setAttribute('link', {
             title: this.data.title,
