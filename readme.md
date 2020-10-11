@@ -9,6 +9,10 @@ A web aplication for virtual walks that are suited for open days. View each room
 
 ## Resources
 
+### Usefull components
+
+- [superframe](https://github.com/supermedium/superframe)
+
 ### In use
 
 - [A-FRAME](https://aframe.io/)
