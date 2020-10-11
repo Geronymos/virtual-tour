@@ -9,7 +9,7 @@
   <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
   <!-- <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script> -->
   <!-- <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script> -->
-  <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+  <!-- <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script> -->
   <script src="https://unpkg.com/aframe-state-component@7.1.0/dist/aframe-state-component.min.js"></script>
   <script>
     const portal_map = [
@@ -41,6 +41,7 @@
             link.visible = in_scene;
             link.href = in_scene && (link.from == action.image) ? link.to : link.from;
           });
+          document.querySelector("#image-360").emit("fade");
           state.links.__dirty = true;
         }
       },
@@ -66,16 +67,13 @@
     </a-assets>
 
     <!-- 360-degree image. -->
-    <a-sky id="image-360" radius="10" src="#city"
-      animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
-      animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
-      anchor="property: src; delay: 300" proxy-event="event: fade; to: #portal; as: roomChange" bind__src="image">
+    <a-sky id="image-360" radius="10" src="#city" bind__src="image"
+      animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: fade">
     </a-sky>
-
     <a-entity bind-for="for: item; in: links; key: index; updateInPlace: true">
       <template>
         <a-entity rotation="0 0 0" bind-item__position="item.position"> -->
-          <a-link class="link" title="Door" bind-item__href="item.href" bind-item__image="item.href"
+          <a-link title="Door" class="link" bind-item__class="!item.visible || 'link'" bind-item__href="item.href" bind-item__image="item.href"
             bind-item__visible="item.visible">
           </a-link>
         </a-entity>
@@ -98,6 +96,7 @@
     // AFRAME.scenes[0].systems.state.dispatch('changeRoom', {image: location.hash});
     // AFRAME.scenes[0].emit('changeRoom', { image: location.hash });
     // AFRAME.scenes[0].systems.state.dispatch('changeRoom', {image: location.hash});
+    sceneEl.emit('changeRoom', { image: location.hash });
 
     window.addEventListener("hashchange", function (e) {
       sceneEl.emit('changeRoom', { image: location.hash });
