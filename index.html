@@ -9,18 +9,44 @@
     <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
     <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
     
+    <script>
+      // Registering component in foo-component.js
+      AFRAME.registerComponent('hide', {
+        schema: {
+          event: {type: "string"}
+        },
+        init: function () {},
+        update: function () {
+          this.el.addEventListener(this.data.event, e => {
+            const from_src = e.target.dataset.from;
+            const bg_src = document.querySelector("#image-360").components.material.data.src;
+
+            const is_in_scene = from_src == `#${bg_src.id}`;
+
+            e.target.object3D.visible = is_in_scene;
+            e.target.className = is_in_scene ? "clickable" : "";
+          });
+        },
+        tick: function () {},
+        remove: function () {},
+        pause: function () {},
+        play: function () {}
+      });
+    </script>
+
     <!-- Image link template to be reused. -->
     <script id="link" type="text/html">
-      <a-entity class="link"
-        geometry="primitive: plane; height: 1; width: 1"
-        material="shader: flat; src: ${thumb}"
+      <a-link class="clickable" id="portal"
+        href="#" image="${to}" title="Door"
+        data-from="${from}"
         position="0 0 -3"
         event-set__mouseenter="scale: 1.2 1.2 1"
         event-set__mouseleave="scale: 1 1 1"
-        event-set__click="_target: #image-360; _delay: 300; material.src: ${src}"
-        proxy-event="event: click; to: #image-360; as: fade"
-        sound="on: click; src: #click-sound"></a-entity>
-    </script>
+        event-set__click="_target: #image-360; material.src: ${to}"
+        proxy-event="event: click; to: #portal; as: fade"
+        hide="event: fade"
+        sound="on: click; src: #click-sound"></a-link>
+      </script>
   </head>
   <body>
     <a-scene>
@@ -38,13 +64,18 @@
       <!-- 360-degree image. -->
       <a-sky id="image-360" radius="10" src="#city"
              animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
-             animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"></a-sky>
+             animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
+             ></a-sky>
+             <!-- proxy-event="event: fade; to: .links" -->
 
       <!-- Image links. -->
       <a-entity id="links">
-        <a-entity template="src: #link" data-src="#cubes" data-thumb="#cubes-thumb" rotation="0 -20 0"></a-entity>
-        <a-entity template="src: #link" data-src="#city" data-thumb="#city-thumb" rotation="0 0 0"></a-entity>
-        <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb" rotation="0 20 0"></a-entity>
+        <a-entity template="src: #link" data-from="#cubes"    data-to="#city" rotation="0 -40 0"></a-entity>
+        <a-entity template="src: #link" data-from="#cubes"    data-to="#sechelt" rotation="0 40 0"></a-entity>
+        <a-entity template="src: #link" data-from="#city"     data-to="#cubes" rotation="0 -40 0"></a-entity>
+        <a-entity template="src: #link" data-from="#city"     data-to="#sechelt" rotation="0 0 0"></a-entity>
+        <a-entity template="src: #link" data-from="#sechelt"  data-to="#city" rotation="0 0 0"></a-entity>
+        <a-entity template="src: #link" data-from="#sechelt"  data-to="#cubes" rotation="0 40 0"></a-entity>
       </a-entity>
 
       <!-- Camera + cursor. -->
@@ -55,8 +86,13 @@
           animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
           event-set__mouseenter="_event: mouseenter; color: springgreen"
           event-set__mouseleave="_event: mouseleave; color: black"
-          raycaster="objects: .link"></a-cursor>
+          raycaster="objects: .clickable"></a-cursor>
       </a-entity>
     </a-scene>
+    <script>
+      document.querySelector("a-scene").addEventListener("loaded", function() {
+        document.querySelectorAll("#portal").forEach(elem => elem.emit("fade"));
+      });
+    </script>
   </body>
 </html>
