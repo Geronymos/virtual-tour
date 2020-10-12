@@ -46,8 +46,15 @@
         event-set__click="_target: #image-360; material.src: ${to}"
         proxy-event="event: click; to: #portal; as: fade"
         hide="event: fade"
-        sound="on: click; src: #click-sound"></a-link>
-      </script>
+        sound="on: click; src: #click-sound"
+      ></a-link>
+  </script>
+
+  <!-- Portal link template to be reused. -->
+  <script id="portals" type="text/html">
+    <a-entity template="src: #link" data-from="${from}" data-to="${to}"></a-entity>
+    <a-entity template="src: #link" data-from="${to}" data-to="${from}"></a-entity>
+  </script>
 </head>
 
 <body>
@@ -77,12 +84,9 @@
 
     <!-- Image links. -->
     <a-entity id="links">
-      <a-entity template="src: #link" data-from="#cubes" data-to="#city" rotation="0 -40 0"></a-entity>
-      <a-entity template="src: #link" data-from="#cubes" data-to="#sechelt" rotation="0 40 0"></a-entity>
-      <a-entity template="src: #link" data-from="#city" data-to="#cubes" rotation="0 -40 0"></a-entity>
-      <a-entity template="src: #link" data-from="#city" data-to="#sechelt" rotation="0 0 0"></a-entity>
-      <a-entity template="src: #link" data-from="#sechelt" data-to="#city" rotation="0 0 0"></a-entity>
-      <a-entity template="src: #link" data-from="#sechelt" data-to="#cubes" rotation="0 40 0"></a-entity>
+      <a-entity template="src: #portals" data-from="#cubes" data-to="#city" rotation="0 -40 0"></a-entity>
+      <a-entity template="src: #portals" data-from="#city" data-to="#sechelt" rotation="0 0 0"></a-entity>
+      <a-entity template="src: #portals" data-from="#sechelt" data-to="#cubes" rotation="0 40 0"></a-entity>
     </a-entity>
 
     <!-- Camera + cursor. -->
