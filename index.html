@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>360&deg; Image Gallery</title>
-    <meta name="description" content="360&deg; Image Gallery - A-Frame">
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
-    
-    <script>
-      // Registering component in foo-component.js
-      AFRAME.registerComponent('hide', {
-        schema: {
-          event: {type: "string"}
-        },
-        init: function () {},
-        update: function () {
-          this.el.addEventListener(this.data.event, e => {
-            const from_src = e.target.dataset.from;
-            const bg_src = document.querySelector("#image-360").components.material.data.src;
 
-            const is_in_scene = from_src == `#${bg_src.id}`;
+<head>
+  <meta charset="utf-8">
+  <title>360&deg; Image Gallery</title>
+  <meta name="description" content="360&deg; Image Gallery - A-Frame">
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
 
-            e.target.object3D.visible = is_in_scene;
-            e.target.className = is_in_scene ? "clickable" : "";
-          });
-        },
-        tick: function () {},
-        remove: function () {},
-        pause: function () {},
-        play: function () {}
-      });
-    </script>
+  <script>
+    // Registering component in foo-component.js
+    AFRAME.registerComponent('hide', {
+      schema: {
+        event: { type: "string" }
+      },
+      init: function () { },
+      update: function () {
+        this.el.addEventListener(this.data.event, e => {
+          const from_src = e.target.dataset.from;
+          const bg_src = document.querySelector("#image-360").components.material.data.src;
 
-    <!-- Image link template to be reused. -->
-    <script id="link" type="text/html">
+          const is_in_scene = from_src == `#${bg_src.id}`;
+
+          e.target.object3D.visible = is_in_scene;
+          e.target.className = is_in_scene ? "clickable" : "";
+        });
+      },
+      tick: function () { },
+      remove: function () { },
+      pause: function () { },
+      play: function () { }
+    });
+  </script>
+
+  <!-- Image link template to be reused. -->
+  <script id="link" type="text/html">
       <a-link class="clickable" id="portal"
         href="#" image="${to}" title="Door"
         data-from="${from}"
@@ -47,52 +48,57 @@
         hide="event: fade"
         sound="on: click; src: #click-sound"></a-link>
       </script>
-  </head>
-  <body>
-    <a-scene>
-      <a-assets>
-        <img id="city" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
-        <img id="city-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
-        <img id="cubes-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
-        <img id="sechelt-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-sechelt.jpg">
-        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
-        <img id="cubes" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/cubes.jpg">
-        <img id="sechelt" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+</head>
 
-      </a-assets>
+<body>
+  <a-scene>
+    <a-assets>
+      <img id="city" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
+      <img id="city-thumb" crossorigin="anonymous"
+        src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
+      <img id="cubes-thumb" crossorigin="anonymous"
+        src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
+      <img id="sechelt-thumb" crossorigin="anonymous"
+        src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-sechelt.jpg">
+      <audio id="click-sound" crossorigin="anonymous"
+        src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+      <img id="cubes" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/cubes.jpg">
+      <img id="sechelt" crossorigin="anonymous"
+        src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
 
-      <!-- 360-degree image. -->
-      <a-sky id="image-360" radius="10" src="#city"
-             animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
-             animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade"
-             ></a-sky>
-             <!-- proxy-event="event: fade; to: .links" -->
+    </a-assets>
 
-      <!-- Image links. -->
-      <a-entity id="links">
-        <a-entity template="src: #link" data-from="#cubes"    data-to="#city" rotation="0 -40 0"></a-entity>
-        <a-entity template="src: #link" data-from="#cubes"    data-to="#sechelt" rotation="0 40 0"></a-entity>
-        <a-entity template="src: #link" data-from="#city"     data-to="#cubes" rotation="0 -40 0"></a-entity>
-        <a-entity template="src: #link" data-from="#city"     data-to="#sechelt" rotation="0 0 0"></a-entity>
-        <a-entity template="src: #link" data-from="#sechelt"  data-to="#city" rotation="0 0 0"></a-entity>
-        <a-entity template="src: #link" data-from="#sechelt"  data-to="#cubes" rotation="0 40 0"></a-entity>
-      </a-entity>
+    <!-- 360-degree image. -->
+    <a-sky id="image-360" radius="10" src="#city"
+      animation__fade="property: components.material.material.color; type: color; from: #FFF; to: #000; dur: 300; startEvents: fade"
+      animation__fadeback="property: components.material.material.color; type: color; from: #000; to: #FFF; dur: 300; startEvents: animationcomplete__fade">
+    </a-sky>
+    <!-- proxy-event="event: fade; to: .links" -->
 
-      <!-- Camera + cursor. -->
-      <a-entity camera look-controls>
-        <a-cursor
-          id="cursor"
-          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
-          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
-          event-set__mouseenter="_event: mouseenter; color: springgreen"
-          event-set__mouseleave="_event: mouseleave; color: black"
-          raycaster="objects: .clickable"></a-cursor>
-      </a-entity>
-    </a-scene>
-    <script>
-      document.querySelector("a-scene").addEventListener("loaded", function() {
-        document.querySelectorAll("#portal").forEach(elem => elem.emit("fade"));
-      });
-    </script>
-  </body>
+    <!-- Image links. -->
+    <a-entity id="links">
+      <a-entity template="src: #link" data-from="#cubes" data-to="#city" rotation="0 -40 0"></a-entity>
+      <a-entity template="src: #link" data-from="#cubes" data-to="#sechelt" rotation="0 40 0"></a-entity>
+      <a-entity template="src: #link" data-from="#city" data-to="#cubes" rotation="0 -40 0"></a-entity>
+      <a-entity template="src: #link" data-from="#city" data-to="#sechelt" rotation="0 0 0"></a-entity>
+      <a-entity template="src: #link" data-from="#sechelt" data-to="#city" rotation="0 0 0"></a-entity>
+      <a-entity template="src: #link" data-from="#sechelt" data-to="#cubes" rotation="0 40 0"></a-entity>
+    </a-entity>
+
+    <!-- Camera + cursor. -->
+    <a-entity camera look-controls>
+      <a-cursor id="cursor"
+        animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+        animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+        event-set__mouseenter="_event: mouseenter; color: springgreen"
+        event-set__mouseleave="_event: mouseleave; color: black" raycaster="objects: .clickable"></a-cursor>
+    </a-entity>
+  </a-scene>
+  <script>
+    document.querySelector("a-scene").addEventListener("loaded", function () {
+      document.querySelectorAll("#portal").forEach(elem => elem.emit("fade"));
+    });
+  </script>
+</body>
+
 </html>
